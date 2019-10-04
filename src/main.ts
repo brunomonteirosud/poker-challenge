@@ -1,4 +1,5 @@
-import Deck from "./deck";
+import PokerGame from "./PokerGame";
 
-let myDeck = Deck.getDeck();
-Deck.shuffleDeck(10);
+const myGame = new PokerGame(5, 3);
+myGame.startNewRound();
+console.log(myGame.getPlayers());
