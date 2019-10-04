@@ -1,12 +1,12 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
-        "module": "ESNext",
+        "module": "commonjs",
         "moduleResolution": "node",        
         "sourceMap": true,
         "noImplicitAny": true,
         "outDir": "./scripts/",
-        "target": "es5",
+        "target": "es2017",
         "strict": true
     },
     "include": [
