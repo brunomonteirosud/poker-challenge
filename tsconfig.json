@@ -1,0 +1,18 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "module": "ESNext",
+        "moduleResolution": "node",        
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "outDir": "./scripts/",
+        "target": "es5",
+        "strict": true
+    },
+    "include": [
+        "./src/**/*"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

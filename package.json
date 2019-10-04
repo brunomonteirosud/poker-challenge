@@ -1,0 +1,22 @@
+{
+  "name": "poker-challenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "start": "tsc && parcel watch index.html --public-url ./ --no-hmr",
+    "build": "tsc && parcel build index.html --public-url ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brunomonteirosud/poker-challenge.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brunomonteirosud/poker-challenge/issues"
+  },
+  "homepage": "https://github.com/brunomonteirosud/poker-challenge#readme"
+}
