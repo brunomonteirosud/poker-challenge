@@ -37,6 +37,12 @@ export enum GameStatus {
     FINISHED = 2
 }
 
+export enum RoundStatus {
+    READY = 0,
+    STARTED = 1,
+    RANKED = 2
+}
+
 export enum PokerRanks {
     HIGH_CARD = 1,
     PAIR = 2,

@@ -1,5 +1,5 @@
 import Deck from "./Deck";
-import { GameStatus, SHUFFLE_TIMES, CARDS_PER_PLAYER, PokerRanks } from "./constants";
+import { GameStatus, RoundStatus, SHUFFLE_TIMES, CARDS_PER_PLAYER, PokerRanks } from "./constants";
 import { Card, Player } from "./interfaces";
 import { isStraightFlush, isFlush, isStraight, isPair, isHighCard, comparePlayerCards } from "./rankHelper";
 
@@ -8,9 +8,11 @@ class PokerGame {
     private players: Player[];
     private totalRounds: number;
     private currentRound: number;
+    private roundStatus: RoundStatus;
 
     constructor(numberOfPlayers: number, numberOfRounds: number) {
         this.gameStatus = GameStatus.NEW;
+        this.roundStatus = RoundStatus.READY;
         this.players = this.generatePlayers(numberOfPlayers);
         this.totalRounds = numberOfRounds;
         this.currentRound = 0;
@@ -91,6 +93,12 @@ class PokerGame {
     }
 
     startNewRound(): void{
+        if (this.roundStatus === RoundStatus.STARTED){
+            throw new Error("Round already started. Please rank the hands before starting a new round.");
+        } else {
+            this.roundStatus = RoundStatus.STARTED;
+        }
+
         if (this.currentRound >= this.totalRounds){
             this.gameStatus = GameStatus.FINISHED;
         } else {
@@ -109,6 +117,12 @@ class PokerGame {
     }
 
     rankHands(): void{
+        if (this.roundStatus === RoundStatus.RANKED){
+            throw new Error("Hand already ranked. Please start a new round before ranking again.");
+        } else {
+            this.roundStatus = RoundStatus.RANKED;
+        }
+
         this.players.forEach((player) => {
             this.rankPlayer(player);
         })
@@ -116,6 +130,9 @@ class PokerGame {
     }
 
     findGameWinner(): Player{
+        if (this.gameStatus !== GameStatus.FINISHED){
+            throw new Error("Game not finished. Please finish all the rounds before ranking the final winner.");
+        }
         this.players.sort((player1, player2) => {
             if (player1.score > player2.score){
                 return -1;
