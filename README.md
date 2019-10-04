@@ -8,6 +8,11 @@ That said, a very simple UI was created to facilitate the view of the classes an
 ## Technology
 This project was made using `Typescript` and `ES6`. The reason behind is the ability that those languages provide to use classes and types, which would be closer to a Backend approach.
 
+## Folder and Files
+The `src/` folder contains the important files, including the classes, interfaces, constants and helpers.
+
+**Note:** *The `main.ts` file is used only to render the UI*.
+
 ## How to Run
 This project uses Node and NPM. After installing NPM, navigate to the project folder and run:
 
