@@ -23,3 +23,6 @@ and
 `npm run build`
 
 Then a `dist/` folder will be created. Inside it, you will find a `index.html` file that may be open in any browser.
+
+To run **Unit Tests** :
+`npm run test`

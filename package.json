@@ -6,12 +6,17 @@
   "dependencies": {
     "@types/node": "^12.7.11",
     "parcel-bundler": "^1.12.3",
+    "ts-node": "^8.4.1",
     "typescript": "^3.6.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/tape": "^4.2.33",
+    "tape": "^4.11.0"
+  },
   "scripts": {
     "start": "tsc && parcel watch index.html --public-url ./ --no-hmr",
-    "build": "tsc && parcel build index.html --public-url ./"
+    "build": "tsc && parcel build index.html --public-url ./",
+    "test": "ts-node node_modules/tape/bin/tape src/tests/**/*.ts"
   },
   "repository": {
     "type": "git",
