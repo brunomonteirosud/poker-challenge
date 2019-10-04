@@ -1,3 +1,4 @@
-import { printLog } from "./myModule";
+import Deck from "./deck";
 
-printLog();
+let myDeck = Deck.getDeck();
+Deck.shuffleDeck(10);
