@@ -1,4 +1,11 @@
 export interface Card {
-    value: string;
-    suit: string;
+    value: number;
+    suit: number;
+}
+
+export interface Player {
+    name?: string;
+    cards: Card[];
+    rank: number;
+    score: number;
 }

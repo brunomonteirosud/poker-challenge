@@ -1,13 +1,7 @@
 import Deck from "./Deck";
-import { GameStatus, SHUFFLE_TIMES, CARDS_PER_PLAYER } from "./constants";
-import { Card } from "./interfaces";
-
-interface Player {
-    name?: string;
-    cards: Card[];
-    victories: number;
-    rank: number;
-}
+import { GameStatus, SHUFFLE_TIMES, CARDS_PER_PLAYER, PokerRanks } from "./constants";
+import { Card, Player } from "./interfaces";
+import { isStraightFlush, isFlush, isStraight, isPair, isHighCard, comparePlayerCards } from "./rankHelper";
 
 class PokerGame {
     private gameStatus: GameStatus;
@@ -28,8 +22,8 @@ class PokerGame {
             generatedPlayers.push({
                 name: `Player ${i}`,
                 cards: [],
-                victories: 0,
-                rank: 0
+                rank: 0,
+                score: 0
             })
         }
 
@@ -53,7 +47,37 @@ class PokerGame {
     }
 
     private rankPlayer(player: Player): void{
-        // TODO
+        if (isStraightFlush(player.cards)){
+            player.rank = PokerRanks.STRAIGHT_FLUSH;
+            return;
+        }
+        if (isFlush(player.cards)){
+            player.rank = PokerRanks.FLUSH;
+            return;
+        }
+        if (isStraight(player.cards)){
+            player.rank = PokerRanks.STRAIGHT;
+            return;
+        }
+        if (isPair(player.cards)){
+            player.rank = PokerRanks.PAIR;
+            return;
+        }
+        if (isHighCard(player.cards)){
+            player.rank = PokerRanks.HIGH_CARD;
+            return;
+        }
+    }
+
+    private findRoundWinner(): void{
+        this.players.sort((player1, player2) => {
+            return comparePlayerCards(player1, player2);
+        });
+
+        this.players.forEach((player, index) => {
+            // Simple math to compensate the inverted winner order
+            player.score += (this.players.length - index);
+        })
     }
 
     resetGame(): void{
@@ -67,25 +91,41 @@ class PokerGame {
     }
 
     startNewRound(): void{
-        if (this.gameStatus === GameStatus.FINISHED){
-            throw new Error ("Game already finished. Please reset the game.");
-        }
-
         if (this.currentRound >= this.totalRounds){
             this.gameStatus = GameStatus.FINISHED;
+        } else {
+            this.gameStatus = GameStatus.ONGOING;
+        }
+
+        if (this.gameStatus === GameStatus.FINISHED){
+            throw new Error ("Game already finished. Please reset the game.");
         }
 
         Deck.resetDeck();
         Deck.shuffleDeck(SHUFFLE_TIMES);
         this.assignCardsToPlayers(this.getDealtCards());
 
-        this.gameStatus = GameStatus.ONGOING;
+        this.currentRound++;
     }
 
-    rankHands(): void {
+    rankHands(): void{
         this.players.forEach((player) => {
             this.rankPlayer(player);
         })
+        this.findRoundWinner();
+    }
+
+    findGameWinner(): Player{
+        this.players.sort((player1, player2) => {
+            if (player1.score > player2.score){
+                return -1;
+            } else if (player1.score < player2.score){
+                return 1;
+            }
+            return 0;
+        });
+
+        return this.players[0];
     }
 
     getPlayers(): Player[]{
